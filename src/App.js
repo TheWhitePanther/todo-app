@@ -9,11 +9,13 @@ function App() {
   useEffect(() => {
     const storedTasks = JSON.parse(localStorage.getItem('tasks'));
     if (storedTasks) {
+      console.log("Loaded tasks from local storage:", storedTasks);
       setTasks(storedTasks);
     }
   }, []);
 
   useEffect(() => {
+    console.log("Saving tasks to local storage:", tasks);
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
 
