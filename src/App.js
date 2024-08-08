@@ -8,7 +8,7 @@ function App() {
 
   useEffect(() => {
     const storedTasks = JSON.parse(localStorage.getItem('tasks'));
-    if (storedTasks) {
+    if (storedTasks && Array.isArray(storedTasks)) {
       console.log("Loaded tasks from local storage:", storedTasks);
       setTasks(storedTasks);
     }
