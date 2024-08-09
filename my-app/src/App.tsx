@@ -1,23 +1,103 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
+  const [tasks, setTasks] = useState([]);
+  const [newTask, setNewTask] = useState('');
+  const [dueDate, setDueDate] = useState('');
+  const [editingTaskIndex, setEditingTaskIndex] = useState(null);
+  const [filter, setFilter] = useState('all');
+
+  useEffect(() => {
+    const storedTasks = JSON.parse(localStorage.getItem('tasks'));
+    if (storedTasks) {
+      setTasks(storedTasks);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
+
+  const handleAddTask = () => {
+    if (newTask.trim() && dueDate.trim()) {
+      if (editingTaskIndex !== null) {
+        const updatedTasks = tasks.map((task, index) => 
+          index === editingTaskIndex ? { ...task, text: newTask, dueDate, completed: task.completed } : task
+        );
+        setTasks(updatedTasks);
+        setEditingTaskIndex(null);
+      } else {
+        setTasks([...tasks, { text: newTask, dueDate, completed: false }]);
+      }
+      setNewTask('');
+      setDueDate('');
+    }
+  };
+
+  const handleDeleteTask = (index) => {
+    const updatedTasks = tasks.filter((_, i) => i !== index);
+    setTasks(updatedTasks);
+  };
+
+  const handleEditTask = (index) => {
+    setNewTask(tasks[index].text);
+    setDueDate(tasks[index].dueDate);
+    setEditingTaskIndex(index);
+  };
+
+  const handleCompleteTask = (index) => {
+    const updatedTasks = tasks.map((task, i) => 
+      i === index ? { ...task, completed: !task.completed } : task
+    );
+    setTasks(updatedTasks);
+  };
+
+  const filteredTasks = tasks.filter(task => {
+    if (filter === 'completed') return task.completed;
+    if (filter === 'pending') return !task.completed;
+    return true;
+  });
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Todo List</h1>
+        <input
+          type="text"
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
+          placeholder="Add a new task"
+        />
+        <input
+          type="date"
+          value={dueDate}
+          onChange={(e) => setDueDate(e.target.value)}
+          placeholder="Due Date"
+        />
+        <button onClick={handleAddTask}>
+          {editingTaskIndex !== null ? 'Update Task' : 'Add Task'}
+        </button>
+        <div className="filters">
+          <button onClick={() => setFilter('all')}>All</button>
+          <button onClick={() => setFilter('completed')}>Completed</button>
+          <button onClick={() => setFilter('pending')}>Pending</button>
+        </div>
+        <ul>
+          {filteredTasks.map((task, index) => (
+            <li key={index} className={task.completed ? 'completed' : ''}>
+              <input
+                type="checkbox"
+                checked={task.completed}
+                onChange={() => handleCompleteTask(index)}
+              />
+              <span>{task.text}</span>
+              <span> - Due: {task.dueDate}</span>
+              <button onClick={() => handleEditTask(index)}>Edit</button>
+              <button onClick={() => handleDeleteTask(index)}>Delete</button>
+            </li>
+          ))}
+        </ul>
       </header>
     </div>
   );
