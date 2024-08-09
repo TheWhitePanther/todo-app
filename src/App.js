@@ -21,10 +21,12 @@ function App() {
   const handleAddTask = () => {
     if (newTask.trim()) {
       if (editingTaskIndex !== null) {
-        const updatedTasks = tasks.map((task, index) => 
-          index === editingTaskIndex ? { ...task, text: newTask } : task
-        );
-        setTasks(updatedTasks);
+        if (tasks[editingTaskIndex].text !== newTask) {
+          const updatedTasks = tasks.map((task, index) => 
+            index === editingTaskIndex ? { ...task, text: newTask } : task
+          );
+          setTasks(updatedTasks);
+        }
         setEditingTaskIndex(null);
       } else {
         setTasks([...tasks, { text: newTask, completed: false }]);
