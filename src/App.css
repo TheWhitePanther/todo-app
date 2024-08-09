@@ -57,11 +57,6 @@ li {
   border-radius: 5px;
 }
 
-li.completed span {
-  text-decoration: line-through;
-  color: #888;
-}
-
 li button {
   background-color: #ff4d4d;
   color: white;
@@ -69,12 +64,4 @@ li button {
 
 li button:hover {
   background-color: #e60000;
-}
-
-li span {
-  cursor: pointer;
-}
-
-li span:hover {
-  text-decoration: underline;
 }
