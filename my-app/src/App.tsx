@@ -4,7 +4,6 @@ import './App.css';
 function App() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
-  const [dueDate, setDueDate] = useState('');
   const [editingTaskIndex, setEditingTaskIndex] = useState(null);
   const [filter, setFilter] = useState('all');
 
@@ -20,18 +19,17 @@ function App() {
   }, [tasks]);
 
   const handleAddTask = () => {
-    if (newTask.trim() && dueDate.trim()) {
+    if (newTask.trim()) {
       if (editingTaskIndex !== null) {
         const updatedTasks = tasks.map((task, index) => 
-          index === editingTaskIndex ? { ...task, text: newTask, dueDate, completed: task.completed } : task
+          index === editingTaskIndex ? { ...task, text: newTask } : task
         );
         setTasks(updatedTasks);
         setEditingTaskIndex(null);
       } else {
-        setTasks([...tasks, { text: newTask, dueDate, completed: false }]);
+        setTasks([...tasks, { text: newTask, completed: false }]);
       }
       setNewTask('');
-      setDueDate('');
     }
   };
 
@@ -42,7 +40,6 @@ function App() {
 
   const handleEditTask = (index) => {
     setNewTask(tasks[index].text);
-    setDueDate(tasks[index].dueDate);
     setEditingTaskIndex(index);
   };
 
@@ -69,12 +66,6 @@ function App() {
           onChange={(e) => setNewTask(e.target.value)}
           placeholder="Add a new task"
         />
-        <input
-          type="date"
-          value={dueDate}
-          onChange={(e) => setDueDate(e.target.value)}
-          placeholder="Due Date"
-        />
         <button onClick={handleAddTask}>
           {editingTaskIndex !== null ? 'Update Task' : 'Add Task'}
         </button>
@@ -86,13 +77,7 @@ function App() {
         <ul>
           {filteredTasks.map((task, index) => (
             <li key={index} className={task.completed ? 'completed' : ''}>
-              <input
-                type="checkbox"
-                checked={task.completed}
-                onChange={() => handleCompleteTask(index)}
-              />
-              <span>{task.text}</span>
-              <span> - Due: {task.dueDate}</span>
+              <span onClick={() => handleCompleteTask(index)}>{task.text}</span>
               <button onClick={() => handleEditTask(index)}>Edit</button>
               <button onClick={() => handleDeleteTask(index)}>Delete</button>
             </li>
