@@ -1,48 +1,83 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #1c1c1c;
+}
+
 .App {
   text-align: center;
-  background-color: #282c34;
+  background-color: #2a2a2a;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #e0e0e0;
   padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
 }
 
 .App-header {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   width: 100%;
   max-width: 600px;
+  background-color: #333333;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
 h1 {
-  font-size: 3em;
+  font-size: 2.5em;
   margin-bottom: 20px;
+  color: #61dafb;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
 }
 
-input {
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
+input, select {
+  padding: 15px;
+  border: 1px solid #444444;
+  border-radius: 10px;
   margin-right: 10px;
-  width: 60%;
   font-size: 1em;
+  background-color: #444444;
+  color: #e0e0e0;
+  width: calc(100% - 40px);
+  max-width: 280px;
+  margin-bottom: 10px;
+}
+
+input[type="date"] {
+  width: auto;
+}
+
+select {
+  width: auto;
 }
 
 button {
-  padding: 10px 20px;
+  padding: 10px 25px;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   background-color: #61dafb;
   color: #282c34;
   font-size: 1em;
   cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+  margin: 5px;
 }
 
 button:hover {
   background-color: #21a1f1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(33, 161, 241, 0.5);
+}
+
+.filters button {
+  margin: 5px 10px;
 }
 
 ul {
@@ -56,20 +91,29 @@ li {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin: 10px 0;
-  background: #444;
-  padding: 10px;
-  border-radius: 5px;
+  margin: 15px 0;
+  background: #333333;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 li.completed span {
   text-decoration: line-through;
-  color: #888;
+  color: #888888;
+}
+
+li:hover {
+  background-color: #444444;
+  transform: translateY(-2px);
 }
 
 li button {
   background-color: #ff4d4d;
   color: white;
+  border-radius: 5px;
+  padding: 10px 15px;
 }
 
 li button:hover {
@@ -78,16 +122,51 @@ li button:hover {
 
 li span {
   cursor: pointer;
+  font-weight: bold;
 }
 
 li span:hover {
   text-decoration: underline;
 }
 
-.filters {
-  margin: 20px 0;
+.progress {
+  margin: 30px 0;
+  width: 100%;
 }
 
-.filters button {
-  margin: 0 5px;
+progress {
+  width: 100%;
+  height: 25px;
+  border-radius: 15px;
+  margin-right: 10px;
+  box-shadow: inset 0px 1px 8px rgba(0, 0, 0, 0.5);
+}
+
+progress::-webkit-progress-bar {
+  background-color: #444444;
+  border-radius: 15px;
+}
+
+progress::-webkit-progress-value {
+  background-color: #61dafb;
+  border-radius: 15px;
+}
+
+.search-bar {
+  margin-bottom: 20px;
+}
+
+.search-bar input {
+  width: 100%;
+  max-width: 500px;
+  border: 1px solid #444444;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #444444;
+  color: #e0e0e0;
+  font-size: 1em;
+}
+
+.search-bar input::placeholder {
+  color: #888888;
 }
